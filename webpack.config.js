@@ -4,6 +4,8 @@ const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // bc we're using webpack's methods and properties into config file, must import
 const webpack = require('webpack');
+// adding pwa manifest plugin
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 // creating main configuration object
 // basic configuration: entry, output, and mode
@@ -63,6 +65,21 @@ module.exports = {
 		new BundleAnalyzerPlugin({
 			// can also set mode to 'disable' to temporarily stop reporting and automatic opening of this report in the browser
 			analyzerMode: 'static', // the report outputs to an HTML file in dist folder
+		}),
+		new WebpackPwaManifest({
+			name: 'Food Event',
+			short_name: 'Foodies',
+			description: 'An app that allows you to view upcoming food events.',
+			start_url: '../index.html',
+			background_color: '#01579b',
+			theme_color: '#ffffff',
+			fingerprints: false,
+			inject: false,
+			icons: [{
+				src: path.resolve('assets/img/icons/icon-512x512.png'),
+				sizes: [96, 128, 192, 256, 384, 512],
+				destination: path.join('assets', 'icons')
+			}]
 		})
 	],
 	// default webpack wants to run in production mode, which'll minify our code for us automatically, along w other nice additions.
